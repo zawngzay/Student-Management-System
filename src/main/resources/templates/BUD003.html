@@ -1,0 +1,64 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>(USR002)User Register</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/container.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/base.css}" />
+<script type="text/javascript"
+	th:src="@{resources/js/accordion-menu.js}"></script>
+<script type="text/javascript" th:src="@{resources/js/general.js}"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		menu();
+
+	}
+</script>
+</head>
+<body class="main_body">
+	<div th:replace="/header :: header">Header goes here</div>
+
+	<div id="container">
+		<div id="left_menu">
+			<!-- menu html code exist the menu function of general.js -->
+		</div>
+		<div id="main_contents">
+			<div id="contents">
+				<h3>Class Register</h3>
+				<label id="errormsg" th:text="${err}"> ${err} </label> <label style="color: blue;" th:text="${msg}">${msg}</label><br />
+				<br /> <br />
+
+				<form th:action="@{addClass}" th:object="${class}" method="post">
+					<table class="tableForm">
+						<tr>
+							<td class="tblSingleLabel">Class ID *</td>
+							<td class="tblSingleInput"><input type="text" id="txtUserId"
+								class="txt_popup" th:field="*{id}" /> <label
+								th:if="${#fields.hasErrors('id')}" th:errors="*{id}"
+								style="color: red;">Error</label></td>
+						</tr>
+						<tr>
+							<td class="tblSingleLabel">Class Name *</td>
+							<td class="tblSingleInput"><input type="text"
+								class="txtlong_popup" id="txtUserName" th:field="*{name}" /> <label
+								th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+								style="color: red;">Error</label></td>
+						</tr>
+
+					</table>
+					<br /> <input type="submit" value="Register" class="button" />
+				</form>
+
+				<br /> <br /> <br />
+			</div>
+		</div>
+
+	</div>
+
+	<div class="footer">
+		<span>Copyright &#169; ACE Inspiration 2016</span>
+	</div>
+</body>
+</html>

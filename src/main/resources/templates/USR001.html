@@ -1,0 +1,108 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>(USR002)User Register</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/container.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/base.css}" />
+<script type="text/javascript" th:src="@{resources/js/accordion-menu.js}"></script>
+<script type="text/javascript" th:src="@{resources/js/general.js}"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		menu();
+	}
+
+	function checkDelete() {
+		var c = confirm("Are you sure you want to delete?");
+		if (c) {
+			document.getElementById("deleteuser").submit();
+		}
+
+	}
+</script>
+</head>
+<body class="main_body">
+
+	<div th:replace="/header :: header">Header goes here</div>
+
+	<div id="container">
+		<div id="left_menu">
+			<!-- menu html code exist the menu function of general.js -->
+		</div>
+		<div id="main_contents">
+			<div id="contents">
+				<div class="search_form">
+					<h3>User Search</h3>
+					<form
+						th:action="@{/userSearch}"
+						th:object="${userSearch}" method="post">
+						<table class="tableForm">
+							<tr>
+								<td class="tblLabel"><label>User ID</label></td>
+								<td class="tblInputNormal"><input type="text"
+										id="txtUserId" class="txt" th:field="*{id}" /></td>
+
+								<td class="tblLabel">User Name</td>
+								<td class="tblInputNormal"><input type="text"
+										id="txtUserName" class="txt" th:field="*{name}" /></td>
+
+							</tr>
+						</table>
+						<br />
+						<input type="submit" value="Search" class="button" />
+					</form>
+
+					<a th:href="@{/userAddSetUp}">
+						<input type="button" value="Add" class="button" id="userInsert" />
+					</a> <a th:href="@{/userSearchSetup}"><input type="button" value="Reset" 
+						class="button" /></a> <br /> <br />
+					<div id="errormsg">
+						<label th:text="${err }" id="message">${err}</label>
+					</div>
+					<label  th:text="${msg }" style="color: blue;">${msg}</label>
+				</div>
+
+				<br /> <br /> <br />
+				<div id="list">
+				
+					<table class="resultTable">
+						
+							<tr class="tblHeader" th:if="${userlist!=null }">
+								<th width="1%">Delete</th>
+								<th width="1%">Update</th>
+								<th width="12%">User ID</th>
+								<th width="24%">User Name</th>
+							</tr>
+					
+
+							<tr th:each="list:${userlist }">
+								
+									<td><a th:href="@{deleteUser(id=${list.id })}"> <input
+										type="button" value="Delete" class="button" id="delete" onclick="checkDelete()"/>
+								</a></td>
+								
+								
+								<td><a th:href="@{/setupUpdateUser(id=${list.id })}"> <input
+										type="button" value="Update" class="button" id="userUpdate" />
+								</a></td>
+
+								<td th:text="${list.id }">${list.id }</td>
+								<td th:text="${list.name }">${list.name }</td>
+							</tr>
+						
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<div class="footer">
+		<span>Copyright &#169; ACE Inspiration 2016</span>
+	</div>
+	</div>
+</body>
+</html>

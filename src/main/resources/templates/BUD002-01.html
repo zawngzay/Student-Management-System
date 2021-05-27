@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>(USR002)User Register</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/container.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{resources/css/base.css}" />
+<script type="text/javascript"
+	th:src="@{resources/js/accordion-menu.js}"></script>
+<script type="text/javascript" th:src="@{resources/js/general.js}"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		menu();
+	}
+
+	function deleteStudent() {
+		var isOk = confirm("Are you sure to delete?");
+		if (isOk) {
+			document.getElementById("myform").action = "/studentDelete";
+			document.getElementById("myform").submit();
+		}
+	}
+</script>
+</head>
+<body class="main_body">
+
+	<div th:replace="/header :: header">Header goes here</div>
+
+	<div id="container">
+		<div id="left_menu">
+			<!-- menu html code exist the menu function of general.js -->
+		</div>
+		<div id="main_contents">
+			<div id="contents">
+				<div class="search_form">
+					<h3>Student Update</h3>
+					<label th:text="${err}" id="errormsg"> "${err}" </label><br /> 
+					 <label th:text="${msg}" style="color: blue;">"${msg}"</label>
+					<br /> <br /> 
+					<form th:action="@{/studentUpdate}" method="post" id="myform" th:object="${bean}">
+						<input type="hidden" th:field="*{id}" class="txtlong"  />
+						<table class="tableForm">
+							<tr height="30px">
+								<td class="tblSingleLabel">Student No.</td>
+								<td class="tblSingleInput" th:text="${bean.id}">${bean.id}</td>
+							</tr>
+
+
+
+							<tr>
+								<td class="tblSingleLabel">Student Name *</td>
+								<td class="tblSingleInput"><input type="text"
+									th:field="*{name}" class="normal_sel" /><label
+					th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+					style="color: red;">Error</label></td>
+
+							</tr>
+							 <tr>
+								<td class="tblSingleLabel">Class Name *</td>
+								<td class="tblSingleInput"><select id="expenseType"
+										class="normal_sel" th:field="*{className}" >
+										<option value=""></option>
+										<option th:each="list:${session.classlist}"
+												th:value="${list.name}" th:text="${list.name}" th:selected="${list.name==bean.className}">Class Name</option>
+										</select><label
+					th:if="${#fields.hasErrors('className')}" th:errors="*{className}"
+					style="color: red;">Error</label>
+								 </td>
+								
+									
+							</tr>
+								<tr>
+								<td class="tblSingleLabel">Registered Date *</td>
+								<td class="tblSingleInput"><select id="expenseType"
+									th:field="*{year}" class="short_sel">
+										<option th:value="Year" th:text="Year">Year</option>
+
+										<option th:each="i : ${#numbers.sequence(2020, 2030)}"
+											th:value="${i}" th:text="${i}"
+											th:selected="${bean.year!='Year' && bean.year==i}">Year</option>
+
+								</select> <select id="expenseType" class="short_sel" th:field="*{month}">
+										<option th:value="Month" th:text="Month">Month</option>
+										<option th:each="i : ${#numbers.sequence(1,12)}" th:text="${#numbers.formatInteger(i,2)}"
+											th:value="${#numbers.formatInteger(i,2)}"
+											th:selected="${bean.month!='Month' && bean.month==i}">Year</option>
+								</select> <select id="expenseType" class="short_sel" th:field="*{day}">
+										<option th:value="Day" th:text="Day">Day</option>
+										<option th:each="i : ${#numbers.sequence(1, 31)}" th:text="${#numbers.formatInteger(i,2)}"
+											th:value="${#numbers.formatInteger(i,2)}" 
+											th:selected="${bean.day!='Day' && bean.day==i}">Year</option>
+								</select></td>
+
+							</tr>
+						<tr>
+								<td class="tblSingleLabel">Status *</td>
+								<td class="tblSingleInput"><select id="expenseType"
+									class="normal_sel" th:field="*{status}">
+										<option value=""></option>
+										<option th:text="${'Attending'}"
+											th:value="${'Attending'}"  th:selected="${bean.status=='Attending'}"></option>
+										<option th:text="${'Passed'}"
+										th:value="${'Passed'}"
+											th:selected="${bean.status=='Passed'}"></option>
+										<option th:text="${'Failed'}" th:value="${'Failed'}"
+											th:selected="${bean.status=='Failed'}"></option>
+								</select><label
+					th:if="${#fields.hasErrors('status')}" th:errors="*{status}"
+					style="color: red;">Error</label></td>
+
+							</tr>
+						</table>
+						<br />
+						<div id="btnGroup">
+							<input type="submit" value="Update" class="button" /> <input
+								type="button" value="Delete" id="delete" class="button"
+								onclick="deleteStudent()" />
+					</form>
+					<input type="button" value="Back" class="button"
+						onclick="window.location.replace('/studentSearch')" />
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="footer">
+		<span>Copyright &#169; ACE Inspiration 2016</span>
+	</div>
+</body>
+</html>
